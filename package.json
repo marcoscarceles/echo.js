@@ -1,7 +1,7 @@
 {
   "name": "parallel",
   "version": "0.1.0",
-  "author": "Marcos Carceles <marcos.carceles@gmail.com>",
+  "author": "marcos-carceles <marcos.carceles@gmail.com>",
   "description": "A Firebase based Parallel Browser driver",
   "scripts": {
     "test": "grunt test"
