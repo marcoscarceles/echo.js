@@ -1,6 +1,6 @@
 function Parallel(_ref) {
 	var ref = ref;
-};
+}
 
 Parallel.init = function(ref) {
 	if (!ref) {
@@ -29,7 +29,7 @@ var register = function(obj, evt, fnc) {
                 return function(){
                     f1.apply(this,arguments);
                     f2.apply(this,arguments);
-                }
+                };
             })(obj[evt], fnc);
         }
         obj[evt] = fnc;

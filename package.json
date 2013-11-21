@@ -1,17 +1,19 @@
-  {
-  "name": "parallel.js",
-  "version": "0.0.1",
+{
+  "name": "parallel",
+  "version": "0.1.0",
   "author": "Marcos Carceles <marcos.carceles@gmail.com>",
   "description": "A Firebase based Parallel Browser driver",
   "scripts": {
-     "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/marcos-carceles/parallel.js.git"
   },
   "devDependencies": {
-    "karma": "~0.10"
+    "grunt-contrib-uglify": "~0.2.2",
+    "grunt": "~0.4.2",
+    "grunt-contrib-jasmine": "~0.5.2"
   },
   "license": "MIT"
 }
