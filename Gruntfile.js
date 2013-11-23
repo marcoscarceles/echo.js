@@ -15,18 +15,38 @@ module.exports = function(grunt) {
     jasmine: {
       src: 'src/**/*.js',
       options: {
-        specs: 'test/**/*.js'
+        specs: 'test/jasmine/*.js'
       }
     },
     jshint: {
       all: [
-        'Gruntfile.js',
-        'src/**/*.js',
-        'spec/**/*.js'
+      'Gruntfile.js',
+      'src/**/*.js',
+      'test/**/*.js'
       ],
       // options: {
       //   jshintrc: '.jshintrc'
       // }
+    },
+    connect: {
+      server: {
+        options: {
+          hostname: 'localhost',
+          port: 9000,
+          base: [
+          'src',
+          'test/casperjs/docroot'
+          ]
+        }
+      }
+    },
+    casperjs: {
+      options: {
+        async: {
+          parallel: false
+        }
+      },
+      files: ['test/casperjs/*.js']
     }
   });
 
@@ -34,9 +54,11 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-jasmine');
   grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-connect');
+  grunt.loadNpmTasks('grunt-casperjs');
 
   // Default task(s).
-  grunt.registerTask('test', ['jshint', 'jasmine']);
+  grunt.registerTask('test', ['jshint', 'jasmine', 'connect', 'casperjs']);
   grunt.registerTask('default', ['test','uglify']);
 
 };
