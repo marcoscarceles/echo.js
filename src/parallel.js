@@ -32,9 +32,6 @@ Parallel.trigger = function(element, evt) {
     eventObj.eventType = evt;
   }
 
-  eventObj.eventName = eventName;
-  eventObj.memo = memo || { };
-
   if (document.createEvent) {
     element.dispatchEvent(eventObj);
   } else {

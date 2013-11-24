@@ -15,7 +15,6 @@ describe("Initialisation", function() {
 });
 
 describe("DOM Manipulation", function() {
-
   it("can create a selector for a specific node", function() {
     
     var parent = document.createElement("DIV");
@@ -33,5 +32,21 @@ describe("DOM Manipulation", function() {
     expect(docChild).not.toBeNull();
     
     expect(Parallel.selector(child)).toBe("div#parent-id.parent.node span#child-id.child.node");
+  });
+});
+
+describe("Parallel Event Management", function() {
+  
+  it(" can trigger events", function() {
+    var Handler = function(){};
+    Handler.onclick = function(arg){};
+    spyOn(Handler, "onclick");
+    var element = document.createElement("DIV");
+    element.addEventListener("click", Handler.onclick);
+    document.body.appendChild(element);
+    
+    expect(Handler.onclick).not.toHaveBeenCalled();
+    Parallel.trigger(element,"click");
+    expect(Handler.onclick).toHaveBeenCalled();
   });
 });

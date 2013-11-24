@@ -1,21 +1,27 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Event Register Test</title>
-        <script src="parallel.js"></script>
-    </head>
-<body>
+  <head>
+    <title>Event Register Test</title>
+    <script src="parallel.js"></script>
+  </head>
+  <body>
     <a id="link" href="#">Link</a>
     <button id="button">Button</button>
+    <span id="original-effect">Pristine</span>
     <span id="event-type">No event recognised</span>
     <span id="event-target">No event recognised</span>
     <script>
-        Parallel.chain(function(evt) {
-            var eventType = document.querySelector("#event-type");
-            var eventTarget = document.querySelector("#event-target");
-            eventType.innerHTML = evt.type;
-            eventTarget.innerHTML = Parallel.selector(evt.target);
-        });
+      document.querySelector("a#link").addEventListener("click", function() {
+        document.querySelector("#original-effect").innerHTML = "Altered";
+      });
     </script>
-</body>	
+    <script>
+      Parallel.chain(function(evt) {
+        var eventType = document.querySelector("#event-type");
+        var eventTarget = document.querySelector("#event-target");
+        eventType.innerHTML = evt.type;
+        eventTarget.innerHTML = Parallel.selector(evt.target);
+      });
+    </script>
+  </body>	
 </html>
