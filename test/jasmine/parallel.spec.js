@@ -12,5 +12,26 @@ describe("Initialisation", function() {
     expect(Parallel.init("")).toBe(null);
     expect(Parallel.init("firebase")).toEqual(jasmine.any(Parallel));
   });
+});
 
+describe("DOM Manipulation", function() {
+
+  it("can create a selector for a specific node", function() {
+    
+    var parent = document.createElement("DIV");
+    parent.classList.add("parent");
+    parent.classList.add("node");
+    parent.id = "parent-id";
+    var child = document.createElement("SPAN");
+    child.className = "child node";
+    child.id = "child-id";
+    parent.appendChild(child);
+    document.body.appendChild(parent);
+    
+    var docChild = document.querySelector("span.child");
+    
+    expect(docChild).not.toBeNull();
+    
+    expect(Parallel.selector(child)).toBe("div#parent-id.parent.node span#child-id.child.node");
+  });
 });
