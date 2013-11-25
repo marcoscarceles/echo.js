@@ -1,3 +1,4 @@
+'use strict';
 casper.test.begin('Parallel event handling', function suite(test) {
 
   casper.start("http://localhost:9000/parallel-event.html", function() {
