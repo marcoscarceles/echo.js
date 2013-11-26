@@ -7,10 +7,20 @@ describe("Initialisation", function() {
  });
 
   it("requires a Firebase reference", function() {
+
+    var invalidConfig = {};
+    var validConfig = {
+      firebase: "something",
+      session: "more"
+
+    };
+
     expect(Parallel.init()).toBe(null);
     expect(Parallel.init(null)).toBe(null);
     expect(Parallel.init("")).toBe(null);
-    expect(Parallel.init("firebase")).toEqual(jasmine.any(Parallel));
+    expect(Parallel.init("firebase")).toEqual(null);
+    expect(Parallel.init(invalidConfig)).toEqual(null);
+    expect(Parallel.init(validConfig)).toEqual(jasmine.any(Parallel));
   });
 });
 

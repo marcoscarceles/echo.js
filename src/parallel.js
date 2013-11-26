@@ -1,13 +1,18 @@
 'use strict';
-function Parallel(ref) {
-	this.ref = ref;
+function Parallel(session) {
+  this.session = session;
 }
 
-Parallel.init = function(ref) {
-	if (!ref) {
-		return null;
-	}
-	return new Parallel(ref);
+Parallel.init = function(config) {
+  var parallel;
+  try {
+    var session = new Firebase('https://'+config.firebase+'.firebaseio.com/').child(config.session);
+    parallel = new Parallel(session);
+  } catch(e) {
+    parallel = null;
+    console.log('Exception', e);
+  }
+	return parallel;
 };
 
 Parallel.register = function(element, evt, fnc) {
@@ -46,6 +51,9 @@ Parallel.selector = function(element) {
   }
     
   function baseSelector(element) {
+    if (!element.tagName) {
+      return '';
+    }
     var selector = element.tagName.toLowerCase();
     if (element.id) {
       selector += '#'+element.id;

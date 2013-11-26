@@ -19,7 +19,8 @@ module.exports = function (grunt) {
     jasmine: {
       src: 'src/{,*/}*.js',
       options: {
-        specs: 'test/jasmine/*.js'
+        specs: 'test/jasmine/*.js',
+        vendor: 'lib/*.js'
       }
     },
     casperjs: {
@@ -127,6 +128,7 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('test', [
+    'jshint',
     'jasmine',
     'clean:server',
     'connect:test',
@@ -134,7 +136,6 @@ module.exports = function (grunt) {
   ]);
 
   grunt.registerTask('default', [
-    'jshint',
     'test'
   ]);
 };

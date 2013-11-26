@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Event Register Test</title>
+    <script src="https://cdn.firebase.com/v0/firebase.js"></script>
+    <script src="parallel.js"></script>
+  </head>
+  <body>
+    <a id="link" href="#">Link</a>
+
+    <script>
+
+      // var myDataRef = new Firebase('https://gc6mc1516gx.firebaseio-demo.com/');
+      // $('#messageInput').keypress(function (e) {
+      //   if (e.keyCode == 13) {
+      //     var name = $('#nameInput').val();
+      //     var text = $('#messageInput').val();
+      //     myDataRef.push({name: name, text: text});
+      //     $('#messageInput').val('');
+      //   }
+      // });
+      // myDataRef.on('child_added', function(snapshot) {
+      //   var message = snapshot.val();
+      //   displayChatMessage(message.name, message.text);
+      // });
+      // function displayChatMessage(name, text) {
+      //   $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
+      //   $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+      // };
+
+
+      var config = {
+        "firebase": "paralleljs-test",
+        "session": "test"
+      };
+      Parallel.init(config);
+      Parallel.chain(function(evt) {
+        Parallel.session.push({
+          event: evt.type,
+          target: Parallel.selector(evt.target)
+        })
+      });
+    </script>
+  </body>	
+</html>

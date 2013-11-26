@@ -19,6 +19,7 @@
   "trailing": true,
   "smarttabs": true,
   "globals": {
-    "Parallel": false
+    "Parallel": false,
+    "Firebase": false
   }
 }
