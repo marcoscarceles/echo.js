@@ -59,6 +59,7 @@ module.exports = function (grunt) {
         options: {
           middleware: function (connect) {
             return [
+              lrSnippet,
               mountFolder(connect, '.tmp'),
               mountFolder(connect, 'src'),
               mountFolder(connect, 'test/casperjs/docroot')
@@ -115,13 +116,16 @@ module.exports = function (grunt) {
   });
 
   grunt.registerTask('server', function (target) {
+
     if (target === 'dist') {
       return grunt.task.run(['build', 'open', 'connect:dist:keepalive']);
     }
 
+    var connectTarget = target === 'test' ? 'test' : 'livereload';
+
     grunt.task.run([
       'clean:server',
-      'connect:livereload',
+      'connect:'+connectTarget,
       'open',
       'watch'
     ]);

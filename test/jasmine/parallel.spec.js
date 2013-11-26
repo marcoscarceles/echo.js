@@ -47,7 +47,7 @@ describe("DOM Manipulation", function() {
 
 describe("Parallel Event Management", function() {
   
-  it(" can trigger events", function() {
+  it("can trigger events on an element", function() {
     var Handler = function(){};
     Handler.onclick = function(arg){};
     spyOn(Handler, "onclick");
@@ -59,4 +59,13 @@ describe("Parallel Event Management", function() {
     Parallel.trigger(element,"click");
     expect(Handler.onclick).toHaveBeenCalled();
   });
+
+  it("can trigger events based on a selector", function() {
+    expect(true).toBe(false);
+  });
+
+  it("Events triggered bu Parallel are not processed by it", function() {
+    expect(true).toBe(false);
+  });
+
 });

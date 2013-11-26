@@ -29,6 +29,11 @@ Parallel.register = function(element, evt, fnc) {
 };
 
 Parallel.trigger = function(element, evt) {
+
+  if(typeof(element) === 'string') {
+    element = document.querySelector(element);
+  }
+
   var eventObj;
   if (document.createEvent) {
     eventObj = document.createEvent('HTMLEvents');
@@ -37,6 +42,7 @@ Parallel.trigger = function(element, evt) {
     eventObj = document.createEventObject();
     eventObj.eventType = evt;
   }
+  eventObj.isParallelJs = true;
 
   if (document.createEvent) {
     element.dispatchEvent(eventObj);
@@ -69,5 +75,11 @@ Parallel.selector = function(element) {
 };
 
 Parallel.chain = function(fnc) {
-    Parallel.register(document, 'click', fnc);
-  };
+  Parallel.register(document, 'click', function(evt, params){
+    if (evt.isParallelJs) {
+      console.log('Parallel Event');
+      return;
+    }
+    fnc(evt, params);
+  });
+};
