@@ -6,24 +6,34 @@
     <script src="echo.js"></script>
   </head>
   <body>
-    <button onclick="javascript:alert('Hola!')">Update</button>
-    <button onclick="javascript:document.querySelector('#actions').innerHTML=''">Clear</button>
+    <button id="update">Update</button>
+    <button id="clear" onclick="javascript:document.querySelector('#actions').innerHTML=''">Clear</button>
 
     <ul id="actions">
     </ul> 
 
     <script>
+      document.querySelector("button#update").addEventListener("click", function() {
+          var li = document.createElement('LI');
+          li.innerHTML = new Date();
+          document.querySelector("#actions").appendChild(li);
+      });
+
       Echo.init('https://echojs.firebaseio-demo.com/test/');
       Echo.chain(function(evt) {
         Echo._session.push({
           type: evt.type,
-          target: Echo.selector(evt.target)
+          target: Echo.selector(evt.target),
+          origin: Echo._id
         });
       });
       Echo._session.on('child_added', function(fEvt, fPrev) {
         var target = fEvt.child('target').val(),
-            type = fEvt.child('type').val();
-        Echo.trigger(target, type);
+            type = fEvt.child('type').val(),
+            origin = fEvt.child('origin').val();
+        if (origin !== Echo._id) {
+          Echo.trigger(target, type);
+        }
       });
 
     </script>

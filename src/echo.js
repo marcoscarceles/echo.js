@@ -2,7 +2,18 @@
 function Echo() {
 }
 
+Echo._randomString = function(length)
+{
+    var str = '';
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    for( var i=0; i < length; i++ ) {
+        str += chars.charAt(Math.floor(Math.random() * chars.length));
+    } 
+    return str;
+}
+
 Echo.init = function(firebaseUrl) {
+  this._id = Echo._randomString(8);
   this._session = null;
   try {
     this._session = new Firebase(firebaseUrl);
@@ -73,9 +84,9 @@ Echo.selector = function(element) {
 Echo.chain = function(fnc) {
   Echo.register(document, 'click', function(evt, params){
     if (evt.isEchoJs) {
-      console.log('Echo Event');
-      return;
+      return true;
+    } else {
+      fnc(evt, params);
     }
-    fnc(evt, params);
   });
 };
