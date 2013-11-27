@@ -3,7 +3,7 @@
   <head>
     <title>Event Register Test</title>
     <script src="https://cdn.firebase.com/v0/firebase.js"></script>
-    <script src="parallel.js"></script>
+    <script src="echo.js"></script>
   </head>
   <body>
     <a id="link" href="#">Link</a>
@@ -17,11 +17,11 @@
       });
     </script>
     <script>
-      Parallel.chain(function(evt) {
+      Echo.chain(function(evt) {
         var eventType = document.querySelector("#event-type");
         var eventTarget = document.querySelector("#event-target");
         eventType.innerHTML = evt.type;
-        eventTarget.innerHTML = Parallel.selector(evt.target);
+        eventTarget.innerHTML = Echo.selector(evt.target);
       });
     </script>
   </body> 

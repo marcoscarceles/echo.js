@@ -1,7 +1,7 @@
 'use strict';
-casper.test.begin('Parallel event handling', function suite(test) {
+casper.test.begin('Echo event handling', function suite(test) {
 
-  casper.start("http://localhost:9000/parallel-event.html", function() {
+  casper.start("http://localhost:9000/echo-event.html", function() {
     test.assertTitle("Event Register Test");
     test.assertSelectorHasText("#original-effect", "Pristine");
     test.assertTextExists("No event recognised", "Page loads");

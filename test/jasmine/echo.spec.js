@@ -7,12 +7,12 @@ describe("Initialisation", function() {
  });
 
   it("requires a Firebase reference", function() {
-    expect(Parallel.init()).toBe(false);
-    expect(Parallel.init(false)).toBe(false);
-    expect(Parallel.init("")).toBe(false);
-    expect(Parallel.init("invalid")).toBe(false);
-    expect(Parallel.init("https://something.firebaseio-demo.com/")).toBe(true);
-    expect(Parallel.init("https://something.firebaseio.com/more/")).toBe(true);
+    expect(Echo.init()).toBe(false);
+    expect(Echo.init(false)).toBe(false);
+    expect(Echo.init("")).toBe(false);
+    expect(Echo.init("invalid")).toBe(false);
+    expect(Echo.init("https://something.firebaseio-demo.com/")).toBe(true);
+    expect(Echo.init("https://something.firebaseio.com/more/")).toBe(true);
   });
 });
 
@@ -33,11 +33,11 @@ describe("DOM Manipulation", function() {
     
     expect(docChild).not.toBeNull();
     
-    expect(Parallel.selector(child)).toBe("div#parent-id.parent.node span#child-id.child.node");
+    expect(Echo.selector(child)).toBe("div#parent-id.parent.node span#child-id.child.node");
   });
 });
 
-describe("Parallel Event Management", function() {
+describe("Echo Event Management", function() {
 
   var Handler = function(){},
       element = null;
@@ -55,7 +55,7 @@ describe("Parallel Event Management", function() {
   });
   
   it("Can handle an Event", function() {
-    Parallel.chain(Handler.handle);
+    Echo.chain(Handler.handle);
     expect(Handler.handle).not.toHaveBeenCalled();
 
     var eventObj = document.createEvent('HTMLEvents');
@@ -66,20 +66,20 @@ describe("Parallel Event Management", function() {
 
   it("can trigger events on an element", function() {
     expect(Handler.onclick).not.toHaveBeenCalled();
-    Parallel.trigger(element,"click");
+    Echo.trigger(element,"click");
     expect(Handler.onclick).toHaveBeenCalled();
   });
 
   it("can trigger events based on a selector", function() {
     expect(Handler.onclick).not.toHaveBeenCalled();
-    Parallel.trigger('div#unique',"click");
+    Echo.trigger('div#unique',"click");
     expect(Handler.onclick).toHaveBeenCalled();
   });
 
-  it("Events triggered bu Parallel are not processed by it", function() {
+  it("Events triggered bu Echo are not processed by it", function() {
     expect(Handler.onclick).not.toHaveBeenCalled();
-    Parallel.chain(Handler.handle);
-    Parallel.trigger('div#unique','click');
+    Echo.chain(Handler.handle);
+    Echo.trigger('div#unique','click');
     expect(Handler.onclick.calls.length).toBe(1);
     expect(Handler.handle.calls.length).toBe(0);
   });

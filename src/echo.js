@@ -1,8 +1,8 @@
 'use strict';
-function Parallel() {
+function Echo() {
 }
 
-Parallel.init = function(firebaseUrl) {
+Echo.init = function(firebaseUrl) {
   this._session = null;
   try {
     this._session = new Firebase(firebaseUrl);
@@ -11,7 +11,7 @@ Parallel.init = function(firebaseUrl) {
 	return this._session !== null;
 };
 
-Parallel.register = function(element, evt, fnc) {
+Echo.register = function(element, evt, fnc) {
   // W3C model
   if (element.addEventListener) {
     element.addEventListener(evt, fnc, true);
@@ -24,7 +24,7 @@ Parallel.register = function(element, evt, fnc) {
   return false;
 };
 
-Parallel.trigger = function(element, evt) {
+Echo.trigger = function(element, evt) {
 
   if(typeof(element) === 'string') {
     element = document.querySelector(element);
@@ -38,7 +38,7 @@ Parallel.trigger = function(element, evt) {
     eventObj = document.createEventObject();
     eventObj.eventType = evt;
   }
-  eventObj.isParallelJs = true;
+  eventObj.isEchoJs = true;
 
   if (document.createEvent) {
     element.dispatchEvent(eventObj);
@@ -47,7 +47,7 @@ Parallel.trigger = function(element, evt) {
   }
 };
 
-Parallel.selector = function(element) {
+Echo.selector = function(element) {
   if (!element.tagName) {
     return null;
   }
@@ -70,10 +70,10 @@ Parallel.selector = function(element) {
   return selector + baseSelector(element);
 };
 
-Parallel.chain = function(fnc) {
-  Parallel.register(document, 'click', function(evt, params){
-    if (evt.isParallelJs) {
-      console.log('Parallel Event');
+Echo.chain = function(fnc) {
+  Echo.register(document, 'click', function(evt, params){
+    if (evt.isEchoJs) {
+      console.log('Echo Event');
       return;
     }
     fnc(evt, params);

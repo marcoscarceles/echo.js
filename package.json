@@ -1,5 +1,5 @@
 {
-  "name": "parallel",
+  "name": "echojs",
   "version": "0.1.0",
   "author": "marcos-carceles <marcos.carceles@gmail.com>",
   "description": "A Firebase based Parallel Browser driver",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/marcos-carceles/parallel.js.git"
+    "url": "https://github.com/marcos-carceles/echo.js.git"
   },
   "devDependencies": {
     "grunt": "~0.4.2",
