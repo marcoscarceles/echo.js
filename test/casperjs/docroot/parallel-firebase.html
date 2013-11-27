@@ -31,11 +31,7 @@
       //   $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
       //   $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
       // };
-      var config = {
-        "firebase": "paralleljs-test",
-        "session": "test"
-      };
-      var parallel = Parallel.init(config);
+      var parallel = Parallel.init('https://echojs.firebaseio-demo.com/test/');
       Parallel.chain(function(evt) {
         parallel.session.push({
           type: evt.type,

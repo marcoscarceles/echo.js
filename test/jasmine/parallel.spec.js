@@ -7,20 +7,12 @@ describe("Initialisation", function() {
  });
 
   it("requires a Firebase reference", function() {
-
-    var invalidConfig = {};
-    var validConfig = {
-      firebase: "something",
-      session: "more"
-
-    };
-
-    expect(Parallel.init()).toBe(null);
-    expect(Parallel.init(null)).toBe(null);
-    expect(Parallel.init("")).toBe(null);
-    expect(Parallel.init("firebase")).toEqual(null);
-    expect(Parallel.init(invalidConfig)).toEqual(null);
-    expect(Parallel.init(validConfig)).toEqual(jasmine.any(Parallel));
+    expect(Parallel.init()).toBe(false);
+    expect(Parallel.init(false)).toBe(false);
+    expect(Parallel.init("")).toBe(false);
+    expect(Parallel.init("invalid")).toBe(false);
+    expect(Parallel.init("https://something.firebaseio-demo.com/")).toBe(true);
+    expect(Parallel.init("https://something.firebaseio.com/more/")).toBe(true);
   });
 });
 

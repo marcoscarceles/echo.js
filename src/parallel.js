@@ -1,18 +1,14 @@
 'use strict';
-function Parallel(session) {
-  this.session = session;
+function Parallel() {
 }
 
-Parallel.init = function(config) {
-  var parallel;
+Parallel.init = function(firebaseUrl) {
+  this._session = null;
   try {
-    var session = new Firebase('https://'+config.firebase+'.firebaseio.com/').child(config.session);
-    parallel = new Parallel(session);
+    this._session = new Firebase(firebaseUrl);
   } catch(e) {
-    parallel = null;
-    console.log('Exception', e);
   }
-	return parallel;
+	return this._session !== null;
 };
 
 Parallel.register = function(element, evt, fnc) {
