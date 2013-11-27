@@ -38,26 +38,49 @@ describe("DOM Manipulation", function() {
 });
 
 describe("Parallel Event Management", function() {
-  
-  it("can trigger events on an element", function() {
-    var Handler = function(){};
+
+  var Handler = function(){},
+      element = null;
+
+  beforeEach(function(){
+    document.body.innerHTML = '';
+    Handler.handle = function(arg){}
+    spyOn(Handler, "handle");
     Handler.onclick = function(arg){};
     spyOn(Handler, "onclick");
-    var element = document.createElement("DIV");
+    element = document.createElement("DIV");
+    element.id = 'unique';
     element.addEventListener("click", Handler.onclick);
     document.body.appendChild(element);
-    
+  });
+  
+  it("Can handle an Event", function() {
+    Parallel.chain(Handler.handle);
+    expect(Handler.handle).not.toHaveBeenCalled();
+
+    var eventObj = document.createEvent('HTMLEvents');
+    eventObj.initEvent('click', true, true);
+    element.dispatchEvent(eventObj);
+    expect(Handler.handle).toHaveBeenCalled();
+  });
+
+  it("can trigger events on an element", function() {
     expect(Handler.onclick).not.toHaveBeenCalled();
     Parallel.trigger(element,"click");
     expect(Handler.onclick).toHaveBeenCalled();
   });
 
   it("can trigger events based on a selector", function() {
-    expect(true).toBe(false);
+    expect(Handler.onclick).not.toHaveBeenCalled();
+    Parallel.trigger('div#unique',"click");
+    expect(Handler.onclick).toHaveBeenCalled();
   });
 
   it("Events triggered bu Parallel are not processed by it", function() {
-    expect(true).toBe(false);
+    expect(Handler.onclick).not.toHaveBeenCalled();
+    Parallel.chain(Handler.handle);
+    Parallel.trigger('div#unique','click');
+    expect(Handler.onclick.calls.length).toBe(1);
+    expect(Handler.handle.calls.length).toBe(0);
   });
-
 });
