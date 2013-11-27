@@ -2,15 +2,14 @@
 function Echo() {
 }
 
-Echo._randomString = function(length)
-{
-    var str = '';
-    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    for( var i=0; i < length; i++ ) {
-        str += chars.charAt(Math.floor(Math.random() * chars.length));
-    } 
-    return str;
-}
+Echo._randomString = function(length) {
+  var str = '';
+  var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  for( var i=0; i < length; i++ ) {
+    str += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return str;
+};
 
 Echo.init = function(firebaseUrl) {
   this._id = Echo._randomString(8);
