@@ -36,24 +36,29 @@ Echo.register = function(element, evt, fnc) {
 
 Echo.trigger = function(element, evt) {
 
+  console.log('Triggering ', element, evt);
+
   if(typeof(element) === 'string') {
-    element = document.querySelector(element);
+    element = Echo.querySelector(element);
   }
+  //console.log("ELEMENT IS ", element);
 
-  var eventObj;
-  if (document.createEvent) {
-    eventObj = document.createEvent('HTMLEvents');
-    eventObj.initEvent(evt, true, true);
-  } else {
-    eventObj = document.createEventObject();
-    eventObj.eventType = evt;
-  }
-  eventObj.isEchoJs = true;
+  if (element) {
+    var eventObj;
+    if (document.createEvent) {
+      eventObj = document.createEvent('HTMLEvents');
+      eventObj.initEvent(evt, true, true);
+    } else {
+      eventObj = document.createEventObject();
+      eventObj.eventType = evt;
+    }
+    eventObj.isEchoJs = true;
 
-  if (document.createEvent) {
-    element.dispatchEvent(eventObj);
-  } else {
-    element.fireEvent('on' + eventObj.eventType, eventObj);
+    if (document.createEvent) {
+      element.dispatchEvent(eventObj);
+    } else {
+      element.fireEvent('on' + eventObj.eventType, eventObj);
+    }
   }
 };
 
@@ -66,26 +71,98 @@ Echo.selector = function(element) {
     if (!element.tagName) {
       return '';
     }
-    var selector = element.tagName.toLowerCase();
+    var tagSelector = element.tagName.toLowerCase();
     if (element.id) {
-      selector += '#'+element.id;
+      tagSelector += '#'+element.id;
     }
     for (var i = 0; i < element.classList.length; i++) {
-      selector += '.'+element.classList[i];
+      tagSelector += '.'+element.classList[i];
     }
-    return selector;
+    return tagSelector;
   }
-    
-  var selector = element.parentNode ? baseSelector(element.parentNode) + ' ' : '';
-  return selector + baseSelector(element);
+
+  var pathSelector = baseSelector(element);
+  
+  while(document.querySelectorAll(pathSelector).length > 1 && element.parentNode.tagName) {
+    pathSelector = baseSelector(element.parentNode) + '>' + pathSelector;
+    element = element.parentNode;
+  }
+  
+  return pathSelector;
+};
+
+Echo.buildSelector = function(element) {
+  var selector = Echo.selector(element);
+  var elements = document.querySelectorAll(selector);
+  if (elements.length > 1) {
+
+    for (var i = 0; i < elements.length; i ++ ) {
+      elements[i].setAttribute('data-echojs-index',i);
+      if (element === elements[i]) {
+        selector += '[data-echojs-index="'+i+'"]';
+      }
+    }
+    // var nodes = selector.split('>');
+    // var partial = 'html>body';
+    // for (var i = 2; i < nodes.length; i ++ ) {
+    //     partial += '>' nodes[i];
+    //     if (document.querySelectorAll(selector).length > 1) {}
+    // }
+  }
+  return selector;
+};
+
+Echo.querySelector = function(selector) {
+
+  var index = selector.lastIndexOf('[data-echojs');
+  var querySelector = index > -1 ? selector.substring(0, index) : selector;
+  var element = null;
+
+  var elements = document.querySelectorAll(querySelector);
+  if (elements.length > 1) {
+    for (var i = 0; i < elements.length; i ++ ) {
+      elements[i].setAttribute('data-echojs-index',i);
+    }
+    element = document.querySelector(selector);
+  } else {
+    element = elements[0];
+  }
+  return element;
 };
 
 Echo.chain = function(fnc) {
-  Echo.register(document, 'click', function(evt, params){
+
+  var mouseEvents = ['mousedown','mouseup','click','mouseover','mouseout'];
+
+  function onExternalEvent(evt, params){
     if (evt.isEchoJs) {
       return true;
     } else {
+      console.log('Detected ',evt.type, Echo.buildSelector(evt.target));
       fnc(evt, params);
     }
-  });
+  }
+
+  for (var i = 0; i < mouseEvents.length; i++) {
+    Echo.register(document, mouseEvents[i], onExternalEvent);
+  }
 };
+
+Echo.chain(function(evt) {
+  Echo._session.push({
+    type: evt.type,
+    target: Echo.buildSelector(evt.target),
+    origin: Echo._id
+  });
+});
+
+Echo.init('https://blah.firebaseio-demo.com/');
+
+Echo._session.on('child_added', function(fEvt/*, fPrev*/) {
+  var target = fEvt.child('target').val(),
+      type = fEvt.child('type').val(),
+      origin = fEvt.child('origin').val();
+  if (origin !== Echo._id) {
+    Echo.trigger(target, type);
+  }
+});

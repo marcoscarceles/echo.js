@@ -16,26 +16,26 @@ describe("Initialisation", function() {
   });
 });
 
-describe("DOM Manipulation", function() {
-  it("can create a selector for a specific node", function() {
+// describe("DOM Manipulation", function() {
+//   it("can create a selector for a specific node", function() {
     
-    var parent = document.createElement("DIV");
-    parent.classList.add("parent");
-    parent.classList.add("node");
-    parent.id = "parent-id";
-    var child = document.createElement("SPAN");
-    child.className = "child node";
-    child.id = "child-id";
-    parent.appendChild(child);
-    document.body.appendChild(parent);
+//     var parent = document.createElement("DIV");
+//     parent.classList.add("parent");
+//     parent.classList.add("node");
+//     parent.id = "parent-id";
+//     var child = document.createElement("SPAN");
+//     child.className = "child node";
+//     child.id = "child-id";
+//     parent.appendChild(child);
+//     document.body.appendChild(parent);
     
-    var docChild = document.querySelector("span.child");
+//     var docChild = document.querySelector("span.child");
     
-    expect(docChild).not.toBeNull();
+//     expect(docChild).not.toBeNull();
     
-    expect(Echo.selector(child)).toBe("div#parent-id.parent.node span#child-id.child.node");
-  });
-});
+//     expect(Echo.selector(child)).toBe("div#parent-id.parent.node span#child-id.child.node");
+//   });
+// });
 
 describe("Echo Event Management", function() {
 

@@ -131,12 +131,16 @@ module.exports = function (grunt) {
     ]);
   });
 
-  grunt.registerTask('test', [
-    'jshint',
-    'jasmine',
+  grunt.registerTask('casper', [
     'clean:server',
     'connect:test',
     'casperjs'
+  ]);
+
+  grunt.registerTask('test', [
+    'jshint',
+    'jasmine'
+    // 'casper'
   ]);
 
   grunt.registerTask('default', [
